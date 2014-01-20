@@ -11,39 +11,41 @@ See the LICENSE file and [http://www.gnu.org/licenses/].
 */
 
 
-/** Return all neighbours a the given cell. */
-def neighbours(cell) {
-    def (x, y) = cell
-    def n = [(-1..1), (-1..1)].combinations()
+/** Return all the neighbours of the given cell, living or not. */
+Set neighbours(List cell) {
+    def (int x, int y) = cell
+    Set n = [(-1..1), (-1..1)].combinations()
     n.remove([0, 0])
-    n.collect {
+    
+    return n.collect {
         def (nx, ny) = it
         [nx + x, ny + y]
-    }
+    } as Set
 }
 
 
 /** Count the living neighbours of the given cell. */
-def countLivingNeighbours(neighbours, grid) {
+int countLivingNeighbours(Set neighbours, Set grid) {
     neighbours.intersect(grid).size() 
 }
 
 
 /** Advance the grid to its next state. */
-def advance(grid) {
+Set advance(Set grid) {
     // All neighbours of all living cells. They are all potential newborns.
-    def livingCellsNeighbours = [] as Set
-    // New grid after transition
-    def newGrid = []
+    Set livingCellsNeighbours = [] as Set
 
-    // Survivors
+    // New grid after transition
+    Set newGrid = [] as Set
+
+    // Survivors and current neighbours
     grid.each { livingCell ->
-        def neighbours = neighbours(livingCell)
+        Set neighbours = neighbours(livingCell)
         def countLivingNeighbours = countLivingNeighbours(neighbours, grid)
         if (countLivingNeighbours in [2, 3]) {
-            newGrid.add livingCell 
+            newGrid.add(livingCell)
         }
-        livingCellsNeighbours.addAll neighbours
+        livingCellsNeighbours.addAll(neighbours)
     }
 
     // New borns (starting from all living cells neighbours)
@@ -64,19 +66,19 @@ def advance(grid) {
 // The grid is infinite. Therefore, coordinates are allowed to be negative.
 
 // Basic grid
-def basic1 = [[0, 0], [1, 0], [2, 0], [1, 1], [2, 1]]
+Set basic1 = [[0, 0], [1, 0], [2, 0], [1, 1], [2, 1]] as Set
 //Another grid
-def basic2 = [[2, 2], [0, 1], [1, 1], [1, 0]]
+Set basic2 = [[2, 2], [0, 1], [1, 1], [1, 0]] as Set
 // Block
-def block = [[0, 0], [1, 0], [0, 1], [1, 1]]
+Set block = [[0, 0], [1, 0], [0, 1], [1, 1]] as Set
 // Blinker
-def blinker = [[1, 1], [2, 1], [3, 1]]
+Set blinker = [[1, 1], [2, 1], [3, 1]] as Set
 // Glider
-def glider =  [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]]
-// DIe hard
-def diehard = [[1, 2], [2, 2], [2, 3], [7, 1], [6, 3], [7, 3], [8, 3]]
+Set glider =  [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]] as Set
+// Die hard
+Set diehard = [[1, 2], [2, 2], [2, 3], [7, 1], [6, 3], [7, 3], [8, 3]] as Set
 
-def grid = diehard
+Set grid = diehard
 
 // Start the simulation
 while (!grid.empty) {
