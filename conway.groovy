@@ -12,7 +12,7 @@ See the LICENSE file and [http://www.gnu.org/licenses/].
 
 
 /** Return all the neighbours of the given cell, living or not. */
-Set neighbours(List cell) {
+Set neighbours(cell) {
     def (int x, int y) = cell
     Set n = [(-1..1), (-1..1)].combinations()
     n.remove([0, 0])
