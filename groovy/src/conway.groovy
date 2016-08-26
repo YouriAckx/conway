@@ -24,7 +24,14 @@ Set glider =  [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]] as Set
 // Die hard
 Set diehard = [[1, 2], [2, 2], [2, 3], [7, 1], [6, 3], [7, 3], [8, 3]] as Set
 
-Set grid = basic1
+
+// Load from file
+def file = new File(args[0])
+if (!file.exists()) {
+    println "File not found: ${file.absolutePath}"
+    System.exit(1)
+}
+def grid = Storage.load(file)
 
 // Start the simulation
 def game = new GameOfLife(grid)
