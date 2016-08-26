@@ -29,8 +29,25 @@ def load(path) {
     file
 }
 
+// Check Groovy intersect bug
+def checkIntersectBug() {
+    def foo = [[1], [2], [3]]
+    def bar = [[2], [3], [4]]
+    if (foo.intersect(bar).size() != 2) {
+        println '''Warning!
+
+The version of Groovy that you are running contains a bug on Collections.intersect().
+Upgrade to 2.4.7 or later.
+See http://stackoverflow.com/questions/35493088/groovy-strange-collectionintersect-behaviour
+
+This program will not function correctly under this version.
+Exiting'''
+        System.exit(1)
+    }
+}
 
 checkArgs()
+checkIntersectBug()
 def file = load(args[0])
 def grid = Storage.load(file)
 
