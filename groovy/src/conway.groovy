@@ -12,17 +12,26 @@ See the LICENSE file and [http://www.gnu.org/licenses/].
 
 
 // Check args
-if (args.size() != 1) {
-    println "Usage: groovy conway.groovy path_to_game"
-    System.exit(1)
+def checkArgs() {
+    if (args.size() != 1) {
+        println "Usage: groovy conway.groovy path_to_game"
+        System.exit(1)
+    }
 }
 
 // Load from file
-def file = new File(args[0])
-if (!file.exists()) {
-    println "File not found: ${file.absolutePath}"
-    System.exit(1)
+def load(path) {
+    def file = new File(path)
+    if (!file.exists()) {
+        println "File not found: ${file.absolutePath}"
+        System.exit(1)
+    }
+    file
 }
+
+
+checkArgs()
+def file = load(args[0])
 def grid = Storage.load(file)
 
 // Start the simulation
