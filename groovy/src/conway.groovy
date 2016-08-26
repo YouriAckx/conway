@@ -6,7 +6,7 @@ http://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
 No cycle detection. Infinite grid. No GUI.
 
-Copyright (C) 2014 Youri Ackx under GNU General Public License.
+Copyright (C) 2014-2016 Youri Ackx under GNU General Public License.
 See the LICENSE file and [http://www.gnu.org/licenses/].
 */
 

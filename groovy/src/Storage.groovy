@@ -1,5 +1,8 @@
 /**
- * Persistence
+ * Persistence.
+ *
+ * Copyright (C) 2014-2016 Youri Ackx under GNU General Public License.
+ * See the LICENSE file and [http://www.gnu.org/licenses/].
  */
 class Storage {
 
