@@ -9,19 +9,27 @@ A simple [Conway's Game of Life](http://en.wikipedia.org/wiki/Conway's_Game_of_L
 
 ## Groovy
 
-About 40 lines of code. Unlike in the usual examples, the grid is defined by set of cells rather than a 2 dimensional array. Each cell is a [x, y] pair:
+About 50 lines of code. Internally, the grid is represented by a `Set` in which each element
+is a living cell as a `[x, y]`.
 
-    // Blinker
-    Set blinker = [[1, 1], [2, 1], [3, 1]] as Set
+The initial game state is loaded from a plain-text file (see [samples](samples)).
 
-Runs with Groovy 2.2.1:
+    $ cat samples/die-hard.txt
+    .........
+    .......*.
+    .**......
+    ..*...***
 
-    youri@gyros conway> ./conway.groovy
+Runs with Groovy 2.4.7 or above.
+
+    src $ ./conway.groovy ../../samples/basic.txt
     [[0, 0], [1, 0], [2, 0], [1, 1], [2, 1]]
     [[0, 0], [2, 0], [2, 1], [1, -1], [0, 1]]
     [[0, 0], [2, 0], [1, -1]]
     [[1, -1], [1, 0]]
     []
+
+⚠️ WARNING! In some versions of Groovy, the Collection `.intersect()` method is broken around `2.4.2` up to `2.4.6`.
 
 ## Go
 
