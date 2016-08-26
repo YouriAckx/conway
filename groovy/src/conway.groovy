@@ -11,6 +11,12 @@ See the LICENSE file and [http://www.gnu.org/licenses/].
 */
 
 
+// Check args
+if (args.size() != 1) {
+    println "Usage: groovy conway.groovy path_to_game"
+    System.exit(1)
+}
+
 // Load from file
 def file = new File(args[0])
 if (!file.exists()) {
