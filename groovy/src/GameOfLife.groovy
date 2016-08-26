@@ -42,22 +42,20 @@
          // Survivors and current neighbours
          grid.each { livingCell ->
              Set neighbours = neighbours(livingCell)
-             int livingNeighboursCount = countLivingNeighbours(neighbours)
-             if (livingNeighboursCount in [2, 3]) {
-                 newGrid.add(livingCell)
-             }
              livingCellsNeighbours.addAll(neighbours)
+             if (countLivingNeighbours(neighbours) in [2, 3]) {
+                 newGrid << livingCell
+             }
          }
 
-         // New borns (starting from all living cells neighbours)
+         // Newborns (starting from all living cells neighbours)
          livingCellsNeighbours.each { newBornCandidate ->
-             if (!grid.contains(newBornCandidate)) {          // do not test alive cells
-                 int livingNeighboursCount = countLivingNeighbours(neighbours(newBornCandidate))
-                 if (livingNeighboursCount == 3) {
-                     newGrid.add newBornCandidate
-                 }
+             if (!grid.contains(newBornCandidate) // do not test alive cells
+                    && countLivingNeighbours(neighbours(newBornCandidate)) == 3) {
+                 newGrid << newBornCandidate
              }
          }
+
          grid = newGrid
      }
 
