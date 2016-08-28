@@ -53,8 +53,8 @@ def grid = Storage.load(file)
 
 // Start the simulation
 def game = new GameOfLife(grid)
-while (true) {
+while (!game.isEmpty()) {
     println game
     game.tick()
-    if (game.isEmpty()) break
 }
+println game
