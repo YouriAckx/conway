@@ -15,6 +15,17 @@
       */
      private Set grid
 
+     /** Neighbours deltas: [-1, -1] .. [1, 1] */
+     private static Set deltas
+
+     static { deltas = initDeltas() }
+
+     private static Set initDeltas() {
+         def n = [(-1..1), (-1..1)].combinations() as Set
+         n.remove([0, 0])
+         n
+     }
+
 
      /**
       * Instanciate a game based on a set reprensentation of cells.
@@ -66,14 +77,7 @@
       */
      private Set neighbours(cell) {
          def (int x, int y) = cell
-         // TODO Combinations can be done only once
-         Set n = [(-1..1), (-1..1)].combinations()
-         n.remove([0, 0])
-
-         return n.collect {
-             def (nx, ny) = it
-             [nx + x, ny + y]
-         } as Set
+         deltas.collect { nx, ny -> [nx + x, ny + y] } as Set
      }
 
 
