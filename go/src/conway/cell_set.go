@@ -42,9 +42,9 @@ func (cs *CellSet) Remove(cell Cell) {
 	delete(cs.set, cell)
 }
 
-// Size of this `CellSet`
-func (cs *CellSet) Size() int {
-	return len(cs.set)
+// Empty returns true is the `CellSet` contains no cell
+func (cs *CellSet) Empty() bool {
+	return len(cs.set) == 0
 }
 
 // Intersect returns a new `CellSet`

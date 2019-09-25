@@ -29,7 +29,7 @@ func main() {
 
 	grid := basic
 	fmt.Println(grid.ToString())
-	for grid.Size() > 0 {
+	for !grid.Empty() {
 		grid = conway.Advance(grid)
 		fmt.Println(grid.ToString())
 	}
