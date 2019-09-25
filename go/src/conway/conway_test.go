@@ -61,7 +61,8 @@ func TestCountLivingNeighbours(t *testing.T) {
 	for _, c := range tests {
 		got := countLivingNeighbours(c.neighbours, c.grid)
 		if got != c.count {
-			t.Errorf("countLivingNeighbours: neighbours %v; grid %v -> %d, want %d", c.neighbours, c.grid, got, c.count)
+			t.Errorf("countLivingNeighbours: neighbours %v; grid %v -> %d, want %d",
+				c.neighbours, c.grid, got, c.count)
 		}
 	}
 
