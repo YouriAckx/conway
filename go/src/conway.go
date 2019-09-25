@@ -30,7 +30,7 @@ func main() {
 	grid := basic
 	fmt.Println(grid.ToString())
 	for !grid.Empty() {
-		grid = conway.Advance(grid)
+		grid = conway.Next(grid)
 		fmt.Println(grid.ToString())
 	}
 }

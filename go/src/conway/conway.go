@@ -36,8 +36,8 @@ func countLivingNeighbours(neighbours, grid *CellSet) int {
 	return intersect
 }
 
-// Advance Move to the next state
-func Advance(grid *CellSet) *CellSet {
+// Next Moves to the next state
+func Next(grid *CellSet) *CellSet {
 	newGrid := NewCellSet()
 
 	// All neighbours of all living cells. They are all potential newborns.
