@@ -5,14 +5,17 @@ import (
 	"strings"
 )
 
+// CellSet Set of cells
 type CellSet struct {
 	set map[Cell]bool
 }
 
+// NewCellSet Returns a new instance of `CellSet`
 func NewCellSet() *CellSet {
 	return &CellSet{make(map[Cell]bool)}
 }
 
+// CellSetFrom Create a new `CellSet` from the given cells
 func CellSetFrom(cells ...Cell) *CellSet {
 	set := NewCellSet()
 	for _, cell := range cells {
@@ -21,28 +24,34 @@ func CellSetFrom(cells ...Cell) *CellSet {
 	return set
 }
 
-func (set *CellSet) Add(cell Cell) bool {
-	_, found := set.set[cell]
-	set.set[cell] = true
-	return !found	//False if it existed already
+// Add a `Cell` to a `CellSet`
+func (cs *CellSet) Add(cell Cell) bool {
+	_, found := cs.set[cell]
+	cs.set[cell] = true
+	return !found
 }
 
-func (set *CellSet) Contains(cell Cell) bool {
-	_, found := set.set[cell]
-	return found	//true if it existed already
+// Contains Check if the `CellSet` contains the given `Cell`
+func (cs *CellSet) Contains(cell Cell) bool {
+	_, found := cs.set[cell]
+	return found
 }
 
-func (set *CellSet) Remove(cell Cell) {
-	delete(set.set, cell)
+// Remove a `Cell`
+func (cs *CellSet) Remove(cell Cell) {
+	delete(cs.set, cell)
 }
 
-func (set *CellSet) Size() int {
-	return len(set.set)
+// Size of this `CellSet`
+func (cs *CellSet) Size() int {
+	return len(cs.set)
 }
 
-func (set *CellSet) Intersect(other *CellSet) *CellSet {
+// Intersect returns a new `CellSet`
+// containing the intersection of this CellSet with another one
+func (cs *CellSet) Intersect(other *CellSet) *CellSet {
 	intersect := NewCellSet()
-	for _, cell := range set.Cells() {
+	for _, cell := range cs.Cells() {
 		for _, otherCell := range other.Cells() {
 			if cell == otherCell {
 				intersect.Add(cell)
@@ -52,18 +61,19 @@ func (set *CellSet) Intersect(other *CellSet) *CellSet {
 	return intersect
 }
 
-
-func (cellSet *CellSet) Cells() []Cell {
+// Cells in this  `CellSet`
+func (cs *CellSet) Cells() []Cell {
 	cells := []Cell{}
-	for cell, _ := range cellSet.set {
+	for cell := range cs.set {
 		cells = append(cells, cell)
 	}
 	return cells
 }
 
-func (cellSet *CellSet) ToString() string {
+// ToString representation of this `CellSet`
+func (cs *CellSet) ToString() string {
 	s := "["
-	for cell, _ := range cellSet.set {
+	for cell := range cs.set {
 		s = s + fmt.Sprintf("(%d, %d) ", cell.X, cell.Y)
 	}
 	s = strings.TrimRight(s, " ")
