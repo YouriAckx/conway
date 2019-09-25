@@ -5,13 +5,12 @@ A simple Conway's Game of Life in Groovy.
 http://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
 No cycle detection. Infinite grid. No GUI.
- 
+
 Copyright (C) 2014 Youri Ackx under GNU General Public License.
 See the LICENSE file and [http://www.gnu.org/licenses/].
 */
 
-
-/** Return all the neighbours of the given cell, living or not. */
+// Return all the neighbours of the given cell, living or not.
 func neighbours(cell *Cell) *CellSet {
 	n := NewCellSet()
 	for i := -1; i <= 1; i++ {
@@ -24,8 +23,7 @@ func neighbours(cell *Cell) *CellSet {
 	return n
 }
 
-
-/** Count the living neighbours of the given cell. */
+// Count the living amongst the given neighbours, for the given cell.
 func countLivingNeighbours(neighbours, grid *CellSet) int {
 	intersect := 0
 	for _, neighbour := range neighbours.Cells() {
@@ -38,42 +36,41 @@ func countLivingNeighbours(neighbours, grid *CellSet) int {
 	return intersect
 }
 
-
+// Advance Move to the next state
 func Advance(grid *CellSet) *CellSet {
+	newGrid := NewCellSet()
+
 	// All neighbours of all living cells. They are all potential newborns.
-    livingCellsNeighbours := NewCellSet()
+	livingCellsNeighbours := NewCellSet()
 
-    // New grid after transition
-    newGrid := NewCellSet()
+	// Survivors and current neighbours
+	for _, living := range grid.Cells() {
+		neighbours := neighbours(&living)
+		countLivingNeighbours := countLivingNeighbours(neighbours, grid)
+		if countLivingNeighbours == 2 || countLivingNeighbours == 3 {
+			newGrid.Add(living)
+		}
+		for _, neighbour := range neighbours.Cells() {
+			livingCellsNeighbours.Add(neighbour)
+		}
+	}
 
-    // Survivors and current neighbours
-    for _, living := range grid.Cells() {
-    	neighbours := neighbours(&living)
-    	countLivingNeighbours := countLivingNeighbours(neighbours, grid)
-    	if (countLivingNeighbours == 2 || countLivingNeighbours == 3) {
-    		newGrid.Add(living)
-    	}
-    	for _, neighbour := range neighbours.Cells() {
-    		livingCellsNeighbours.Add(neighbour)
-    	}
-    }
+	// New borns (starting from all living cells neighbours)
+	for _, candidate := range livingCellsNeighbours.Cells() {
+		found := false
+		for _, cell := range grid.Cells() {
+			if candidate == cell {
+				found = true
+				break
+			}
+		}
+		if !found {
+			countLivingNeighbours := countLivingNeighbours(neighbours(&candidate), grid)
+			if countLivingNeighbours == 3 {
+				newGrid.Add(candidate)
+			}
+		}
+	}
 
-    // New borns (starting from all living cells neighbours)
-    for _, candidate := range livingCellsNeighbours.Cells() {
-	    found := false
-    	for _, cell := range grid.Cells() {
-    		if candidate == cell {
-    			found = true
-    			break
-    		}
-    	}
-    	if !found {
-    		countLivingNeighbourz := countLivingNeighbours(neighbours(&candidate), grid)
-    		if countLivingNeighbourz == 3 {
-    			newGrid.Add(candidate)
-    		}
-    	}
-    }
-
-    return newGrid
+	return newGrid
 }
